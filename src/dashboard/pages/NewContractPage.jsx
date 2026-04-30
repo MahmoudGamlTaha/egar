@@ -1,22 +1,100 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { T } from '../../translations';
 import { Ico } from '../../components/Icon';
 
-export function NewContractPage({ user, lang, onBack }) {
+import { useNavigate } from 'react-router-dom';
+
+export function NewContractPage({ user, lang }) {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
-  const t = T[lang]; const ar = lang === "ar";
+  const [creationMode, setCreationMode] = useState(null); // 'upload' or 'fill'
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const fileInputRef = useRef(null);
+  const t = T[lang];
+  const ar = lang === "ar";
 
   if (submitted) {
     return (
-      <div className="anim" style={{ textAlign:"center", padding:"40px 0" }}>
-        <div style={{ width:72, height:72, borderRadius:"50%", background:"var(--gnbg)", border:"3px solid var(--gn)", display:"flex", alignItems:"center", justifyContent:"center", fontSize:32, margin:"0 auto 20px" }}>✅</div>
-        <h2 style={{ fontSize:18, fontWeight:800, marginBottom:4 }}>{ar?"تم إرسال العقد":"Contract Sent"}</h2>
-        <p style={{ fontSize:13, color:"var(--t3)", marginBottom:24 }}>{ar?"في انتظار موافقة المستأجر":"Waiting for tenant approval"}</p>
-        <button className="btn-tl" onClick={onBack}>{ar?"العودة للعقود":"Back to Contracts"}</button>
+      <div className="anim" style={{ textAlign: "center", padding: "40px 0" }}>
+        <div style={{ width: 72, height: 72, borderRadius: "50%", background: "var(--gnbg)", border: "3px solid var(--gn)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 32, margin: "0 auto 20px" }}>✅</div>
+        <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>{ar ? "تم إرسال العقد" : "Contract Sent"}</h2>
+        <p style={{ fontSize: 13, color: "var(--t3)", marginBottom: 24 }}>{ar ? "في انتظار موافقة المستأجر" : "Waiting for tenant approval"}</p>
+        <button className="btn-tl" onClick={() => navigate('/dashboard/contracts')}>{ar ? "العودة للعقود" : "Back to Contracts"}</button>
       </div>
     );
   }
+
+  if (!creationMode) {
+    return (
+      <div className="anim" style={{ maxWidth: 500, margin: '0 auto', textAlign: 'center', paddingTop: 40 }}>
+        <h2 style={{ fontSize: 18, fontWeight: 800, marginBottom: 4 }}>{ar ? "إنشاء عقد إيجار جديد" : "New Lease Contract"}</h2>
+        <p style={{ fontSize: 13, color: "var(--t3)", marginBottom: 24 }}>{ar ? "اختر طريقة إنشاء العقد" : "Choose how to create the contract"}</p>
+        <div style={{ display: 'flex', gap: 16, justifyContent: 'center' }}>
+          <button className="btn-tl" onClick={() => setCreationMode('fill')}>
+            <Ico n="edit" s={14} /> {ar ? "تعبئة البيانات يدوياً" : "Fill Manually"}
+          </button>
+          <button className="btn-ol" onClick={() => setCreationMode('upload')}>
+            <Ico n="upload" s={14} /> {ar ? "رفع ملف العقد" : "Upload Contract File"}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (creationMode === 'upload') {
+    const handleFileChange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        setUploadedFile(file);
+      }
+    };
+
+    const handleDragOver = (e) => {
+      e.preventDefault();
+    };
+
+    const handleDrop = (e) => {
+      e.preventDefault();
+      const file = e.dataTransfer.files[0];
+      if (file) {
+        setUploadedFile(file);
+      }
+    };
+
+    return (
+      <div className="anim" style={{ maxWidth: 500, margin: '0 auto', paddingTop: 40 }}>
+        <div style={{ marginBottom:14 }}>
+          <button className="btn-ol" onClick={() => setCreationMode(null)}><Ico n={ar?"chevR":"chevL"} s={12} />{t.back}</button>
+        </div>
+        <h2 style={{ fontSize:18, fontWeight:800, marginBottom:4 }}>{ar ? "رفع ملف العقد" : "Upload Contract File"}</h2>
+        <p style={{ fontSize:11, color:"var(--t4)", marginBottom:18 }}>{ar ? "ارفع ملف PDF الخاص بالعقد" : "Upload the contract PDF file"}</p>
+        <div className="card" onDragOver={handleDragOver} onDrop={handleDrop}>
+          <div className="card-body" style={{ textAlign: 'center', padding: '40px 20px' }}>
+            <input type="file" ref={fileInputRef} onChange={handleFileChange} style={{ display: 'none' }} accept="application/pdf" />
+            {uploadedFile ? (
+              <>
+                <div style={{ marginBottom: 16 }}><Ico n="file" s={32} c="var(--tl)" /></div>
+                <p style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>{uploadedFile.name}</p>
+                <button className="btn-ol" onClick={() => setUploadedFile(null)}>{ar ? "إزالة الملف" : "Remove File"}</button>
+              </>
+            ) : (
+              <>
+                <div style={{ marginBottom: 16 }}><Ico n="upload" s={32} c="var(--t3)" /></div>
+                <p style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>{ar ? "اسحب وأفلت الملف هنا" : "Drag & drop file here"}</p>
+                <p style={{ fontSize: 12, color: "var(--t3)", marginBottom: 16 }}>{ar ? "أو" : "or"}</p>
+                <button className="btn-ol" onClick={() => fileInputRef.current.click()}>{ar ? "اختر ملف" : "Browse file"}</button>
+              </>
+            )}
+          </div>
+        </div>
+        <div style={{ display:"flex", gap:8, justifyContent:"flex-end", marginTop: 24 }}>
+          <button className="btn-tl" onClick={() => setSubmitted(true)} disabled={!uploadedFile}><Ico n="check" s={12} />{ar?"إرسال للتوقيع":"Send for Signing"}</button>
+        </div>
+      </div>
+    );
+  }
+
   const stepLabels = [ar?"العقار":"Property", ar?"الأطراف":"Parties", ar?"الشروط":"Terms"];
 
   function Stepper() {
@@ -38,7 +116,7 @@ export function NewContractPage({ user, lang, onBack }) {
   return (
     <div className="anim" style={{ maxWidth:860 }}>
       <div style={{ marginBottom:14 }}>
-        <button className="btn-ol" onClick={onBack}><Ico n={ar?"chevR":"chevL"} s={12} />{t.back}</button>
+        <button className="btn-ol" onClick={() => navigate(-1)}><Ico n={ar?"chevR":"chevL"} s={12} />{t.back}</button>
       </div>
       <h2 style={{ fontSize:18, fontWeight:800, marginBottom:4 }}>{ar ? "إنشاء عقد إيجار جديد" : "New Lease Contract"}</h2>
       <p style={{ fontSize:11, color:"var(--t4)", marginBottom:18 }}>{ar ? "أكمل البيانات ثم أرسل للتوقيع الرقمي" : "Complete details then send for digital signing"}</p>

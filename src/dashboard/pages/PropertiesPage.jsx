@@ -1,13 +1,16 @@
+import { useState } from 'react';
 import { T } from '../../translations';
 import { Ico } from '../../components/Icon';
 import { Pill } from '../../components/Pill';
 import { PROPS } from '../../data';
-
-import { useState } from 'react';
 import { NewPropertyPage } from './NewPropertyPage';
+import { PropertyPlateModal } from './PropertyPlateModal';
+import { useNavigate } from 'react-router-dom';
 
-export function PropertiesPage({ lang }) {
+export function PropertiesPage({ lang, user }) {
+  const navigate = useNavigate();
   const [showNew, setShowNew] = useState(false);
+  const [plateProperty, setPlateProperty] = useState(null);
   const t = T[lang]; const cur = t.cur; const ar = lang === "ar";
   const typeLabel = tp => ({ apartment:ar?"شقة":"Apt", villa:ar?"فيلا":"Villa", office:ar?"مكتب":"Office", shop:ar?"محل":"Shop", warehouse:ar?"مستودع":"WH" }[tp] || tp);
   if (showNew) return <NewPropertyPage lang={lang} onBack={() => setShowNew(false)} />;
@@ -43,6 +46,8 @@ export function PropertiesPage({ lang }) {
                       <button className="btn-icon" onClick={() => alert('View property ' + r.id)}><Ico n="eye" s={12} /></button>
                       <button className="btn-icon" onClick={() => alert('Edit property ' + r.id)}><Ico n="edit" s={12} /></button>
                       <button className="btn-icon" onClick={() => alert('Delete property ' + r.id)}><Ico n="trash" s={12} /></button>
+                      <button className="btn-icon" onClick={() => setPlateProperty(r)} title={ar ? 'إنشاء لوحة QR' : 'Generate QR Plate'} style={{ color: 'var(--tl)' }}><Ico n="qr" s={12} /></button>
+                      <button className="btn-icon" onClick={() => navigate(`/dashboard/properties/${r.id}/history`)} title={ar ? 'سجل الإيجارات' : 'Rental History'} style={{ color: 'var(--am)' }}><Ico n="reports" s={12} /></button>
                     </div>
                   </td>
                 </tr>
@@ -51,6 +56,14 @@ export function PropertiesPage({ lang }) {
           </table>
         </div>
       </div>
+      {plateProperty && (
+        <PropertyPlateModal
+          property={plateProperty}
+          user={user}
+          lang={lang}
+          onClose={() => setPlateProperty(null)}
+        />
+      )}
     </div>
   );
 }

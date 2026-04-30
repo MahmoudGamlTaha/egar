@@ -1,10 +1,12 @@
+import { useNavigate } from 'react-router-dom';
 import { T } from '../translations';
 import { Ico } from '../components/Icon';
 import { Pill } from '../components/Pill';
 import { MetricGrid } from './MetricGrid';
 import { CONTRACTS, PAYMENTS } from '../data';
 
-export function HomePage({ role, lang, user, onNav }) {
+export function HomePage({ role, lang, user }) {
+  const navigate = useNavigate();
   const t  = T[lang];
   const ar = lang === "ar";
   const cur = t.cur;
@@ -44,12 +46,12 @@ export function HomePage({ role, lang, user, onNav }) {
         </h2>
         <p style={{ fontSize:11, color:"var(--t4)" }}>{t.now}</p>
       </div>
-      <MetricGrid items={metricSets[role] || metricSets.tenant} onNav={onNav} />
+      <MetricGrid items={metricSets[role] || metricSets.tenant} onNav={(path) => navigate(`/dashboard/${path}`)} />
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:14 }}>
         <div className="card">
           <div className="card-head">
             <div className="card-title"><Ico n="contracts" s={14} />{ar ? "أحدث العقود" : "Recent Contracts"}</div>
-            <button className="btn-icon" onClick={() => onNav("contracts")}>{ar ? "الكل" : "All"} →</button>
+            <button className="btn-icon" onClick={() => navigate("/dashboard/contracts")}>{ar ? "الكل" : "All"} →</button>
           </div>
           <div className="table-wrap">
             <table>
@@ -69,7 +71,7 @@ export function HomePage({ role, lang, user, onNav }) {
         <div className="card">
           <div className="card-head">
             <div className="card-title"><Ico n="payments" s={14} />{ar ? "المدفوعات الأخيرة" : "Recent Payments"}</div>
-            <button className="btn-icon" onClick={() => onNav("payments")}>{ar ? "الكل" : "All"} →</button>
+            <button className="btn-icon" onClick={() => navigate("/dashboard/payments")}>{ar ? "الكل" : "All"} →</button>
           </div>
           <div className="table-wrap">
             <table>

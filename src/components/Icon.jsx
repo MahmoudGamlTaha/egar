@@ -25,6 +25,10 @@ const ICONS = {
   key:"M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4",
   chevL:"M15 18l-6-6 6-6",
   chevR:"M9 18l6-6-6-6",
+  qr:"M3 3h7v7H3V3z M14 3h7v7h-7V3z M3 14h7v7H3v-7z M5 5h3v3H5z M16 5h3v3h-3z M5 16h3v3H5z M14 14h2v2h-2z M16 16h2v2h-2z M14 18h2v2h-2z M18 14h2v2h-2z M18 18h2v2h-2z M16 18h2v-2h-2z M18 16h-2v-2h2z",
+  file:"M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z M14 2v6h6 M16 13H8 M16 17H8 M10 9H8",
+  close:"M18 6L6 18 M6 6l12 12",
+  print:"M6 9V2h12v7 M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2 M6 14h12v8H6z",
 };
 
 export function Ico({ n, s = 16 }) {

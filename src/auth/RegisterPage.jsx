@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { T } from '../translations';
 import { Ico } from '../components/Icon';
 import { AuthSide } from './AuthSide';
@@ -241,7 +242,7 @@ export function RegisterPage({ lang, setLang, goLogin, onDone }) {
             </div>
           )}
 
-          <div className="lcard-foot">{t.reg.have}{" "}<span className="lnk" onClick={goLogin}>{t.reg.login}</span></div>
+          <div className="lcard-foot">{t.reg.have}{" "}<Link to="/login" className="lnk">{t.reg.login}</Link></div>
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { T } from '../translations';
 import { Ico } from '../components/Icon';
 import { AuthSide } from './AuthSide';
@@ -72,7 +73,7 @@ export function LoginPage({ onLogin, onSwitch, lang, setLang, showBanner }) {
         </form>
 
         <div className="lcard-foot">
-          {t.noAcc} <a className="lnk" onClick={() => onSwitch('register')}>{t.reg}</a>
+          {t.noAcc} <Link to="/register" className="lnk">{t.reg}</Link>
         </div>
       </div>
     </div>
