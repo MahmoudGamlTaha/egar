@@ -334,4 +334,37 @@ tbody tr:hover{background:var(--w1)}
 
 .btn-sm{padding:4px 8px;font-size:10px;gap:3px}
 
+/* ─ CONTRACT DOCUMENT (A4 print-ready) ─ */
+.doc-page{
+  position:relative;width:210mm;min-height:297mm;margin:0 auto 24px;
+  background:#fff;padding:18mm 20mm;border-radius:6px;
+  box-shadow:0 2px 12px rgba(0,0,0,.1);
+  font-family:'Noto Kufi Arabic','Traditional Arabic',Arial,sans-serif;
+  color:#1a1a1a;
+}
+.doc-watermark{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-35deg);
+  font-size:52px;font-weight:900;color:rgba(26,74,110,.04);
+  pointer-events:none;white-space:nowrap;letter-spacing:8px;
+  user-select:none;z-index:0;
+}
+.doc-page-footer{
+  position:absolute;bottom:12mm;left:0;right:0;text-align:center;
+  font-size:9px;color:#999;
+}
+.contract-doc{scroll-behavior:smooth}
+
+/* ─ PRINT ─ */
+@media print{
+  .modal-overlay{position:static!important;background:none!important;display:block!important}
+  .modal-content{max-width:none!important;max-height:none!important;border:none!important;box-shadow:none!important;padding:0!important}
+  .contract-doc{background:#fff!important;padding:0!important;overflow:visible!important}
+  .doc-page{box-shadow:none!important;margin:0!important;border-radius:0!important;page-break-after:always;width:210mm;min-height:297mm}
+  .doc-page:last-child{page-break-after:auto}
+  .doc-watermark{color:rgba(26,74,110,.03)!important}
+  /* hide toolbar */
+  .modal-content>div:first-child{display:none!important}
+  .sidebar,.topbar,.notif-wrap,button{display:none!important}
+}
+
 @media(max-width:800px){.auth-side{display:none}.sidebar{display:none}.metrics-grid{grid-template-columns:1fr 1fr}}

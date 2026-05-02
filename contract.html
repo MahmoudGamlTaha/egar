@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>Residential Contract</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: "Tahoma", "Arial", sans-serif;
+    background: #eaeaea;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 10px auto;
+    background: #fff;
+    padding: 18mm 15mm;
+    box-sizing: border-box;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .header h1 {
+    font-size: 18px;
+    margin: 0;
+    font-weight: bold;
+  }
+
+  .header p {
+    font-size: 11px;
+    margin: 3px 0;
+  }
+
+  .line {
+    border-bottom: 1px solid #000;
+    margin: 6px 0;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 10px;
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: bold;
+    border-bottom: 1px solid #000;
+    padding-bottom: 2px;
+    margin-bottom: 5px;
+  }
+
+  /* Grid fields */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3px 15px;
+  }
+
+  .field {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .label {
+    font-weight: bold;
+  }
+
+  /* Inline bilingual */
+  .bilingual {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .bilingual span {
+    width: 48%;
+  }
+
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+  }
+
+  th, td {
+    border: 1px solid #000;
+    padding: 4px;
+    text-align: center;
+  }
+
+  th {
+    font-weight: bold;
+    background: #f2f2f2;
+  }
+
+  /* Articles */
+  .article {
+    margin-bottom: 6px;
+    font-size: 12px;
+    line-height: 1.6;
+    text-align: justify;
+  }
+
+  .article-title {
+    font-weight: bold;
+    margin-bottom: 2px;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    font-size: 11px;
+    margin-top: 15px;
+  }
+
+  /* Print */
+  @media print {
+    body {
+      background: none;
+    }
+    .page {
+      margin: 0;
+      box-shadow: none;
+    }
+  }
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>عقد سكني</h1>
+    <p>Residential Contract</p>
+    <p>وثيقة رسمية معتمدة</p>
+  </div>
+
+  <div class="line"></div>
+
+  <!-- Contract Data -->
+  <div class="section">
+    <div class="section-title">1. بيانات العقد</div>
+
+    <div class="grid">
+      <div class="field bilingual">
+        <span><span class="label">رقم العقد:</span> {{contract_no}}</span>
+        <span>Contract No: {{contract_no}}</span>
+      </div>
+
+      <div class="field bilingual">
+        <span><span class="label">نوع العقد:</span> {{contract_type}}</span>
+        <span>Contract Type: {{contract_type}}</span>
+      </div>
+
+      <div class="field bilingual">
+        <span><span class="label">تاريخ العقد:</span> {{date}}</span>
+        <span>Date: {{date}}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lessor -->
+  <div class="section">
+    <div class="section-title">2. بيانات المؤجر</div>
+
+    <div class="grid">
+      <div class="field bilingual">
+        <span><span class="label">الاسم:</span> {{lessor_name}}</span>
+        <span>Name: {{lessor_name}}</span>
+      </div>
+
+      <div class="field bilingual">
+        <span><span class="label">رقم الهوية:</span> {{lessor_id}}</span>
+        <span>ID: {{lessor_id}}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tenant -->
+  <div class="section">
+    <div class="section-title">3. بيانات المستأجر</div>
+
+    <div class="grid">
+      <div class="field bilingual">
+        <span><span class="label">الاسم:</span> {{tenant_name}}</span>
+        <span>Name: {{tenant_name}}</span>
+      </div>
+
+      <div class="field bilingual">
+        <span><span class="label">رقم الهوية:</span> {{tenant_id}}</span>
+        <span>ID: {{tenant_id}}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Property -->
+  <div class="section">
+    <div class="section-title">4. بيانات العقار</div>
+
+    <div class="field bilingual">
+      <span><span class="label">العنوان:</span> {{address}}</span>
+      <span>Address: {{address}}</span>
+    </div>
+
+    <div class="field bilingual">
+      <span><span class="label">نوع العقار:</span> {{property_type}}</span>
+      <span>Property Type: {{property_type}}</span>
+    </div>
+  </div>
+
+  <!-- Financial -->
+  <div class="section">
+    <div class="section-title">5. البيانات المالية</div>
+
+    <div class="grid">
+      <div class="field bilingual">
+        <span><span class="label">الإيجار السنوي:</span> {{annual_rent}}</span>
+        <span>Annual Rent: {{annual_rent}}</span>
+      </div>
+
+      <div class="field bilingual">
+        <span><span class="label">إجمالي العقد:</span> {{total}}</span>
+        <span>Total: {{total}}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Payment Table -->
+  <div class="section">
+    <div class="section-title">6. جدول الدفعات</div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>م</th>
+          <th>الفترة</th>
+          <th>تاريخ الاستحقاق</th>
+          <th>نهاية المهلة</th>
+          <th>القيمة</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>{{period_1}}</td>
+          <td>{{due_1}}</td>
+          <td>{{deadline_1}}</td>
+          <td>{{amount_1}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Articles -->
+  <div class="section">
+    <div class="section-title">7. الشروط والأحكام</div>
+
+    <div class="article">
+      <div class="article-title">المادة الأولى: مدة العقد</div>
+      {{article_1}}
+    </div>
+
+    <div class="article">
+      <div class="article-title">المادة الثانية: الالتزامات</div>
+      {{article_2}}
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    (1)
+  </div>
+
+</div>
+
+</body>
+</html>

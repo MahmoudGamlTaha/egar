@@ -10,6 +10,7 @@ export function NewContractPage({ user, lang }) {
   const [submitted, setSubmitted] = useState(false);
   const [creationMode, setCreationMode] = useState(null); // 'upload' or 'fill'
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [paymentPlan, setPaymentPlan] = useState('monthly');
   const fileInputRef = useRef(null);
   const t = T[lang];
   const ar = lang === "ar";
@@ -156,22 +157,47 @@ export function NewContractPage({ user, lang }) {
       )}
 
       {step === 3 && (
-        <div className="card anim" style={{ marginBottom:16 }}>
-          <div className="card-head"><div className="card-title"><Ico n="money" s={14} />{ar?"الشروط المالية":"Financial Terms"}</div></div>
-          <div className="card-body">
-            <div className="fgroup">
-              <div className="frow"><label className="flabel">{ar?"الإيجار الشهري ج.م":"Monthly Rent EGP"}</label><input className="finput" type="number" placeholder="8500" /></div>
-              <div className="frow"><label className="flabel">{ar?"مبلغ التأمين":"Deposit"}</label><input className="finput" type="number" placeholder="17000" /></div>
-              <div className="frow"><label className="flabel">{ar?"تاريخ البداية":"Start Date"}</label><input className="finput" type="date" /></div>
-              <div className="frow"><label className="flabel">{ar?"المدة":"Duration"}</label><select className="field-sel"><option>12 {ar?"شهراً":"mo"}</option><option>24 {ar?"شهراً":"mo"}</option><option>36 {ar?"شهراً":"mo"}</option></select></div>
-              <div className="frow"><label className="flabel">{ar?"يوم السداد":"Pay Day"}</label><select className="field-sel"><option>{ar?"أول الشهر":"1st"}</option><option>{ar?"الخامس عشر":"15th"}</option></select></div>
-              <div className="frow"><label className="flabel">{ar?"فترة الإشعار":"Notice Period"}</label><select className="field-sel"><option>30</option><option>60</option><option>90</option></select></div>
+        <>
+          <div className="card anim" style={{ marginBottom:12 }}>
+            <div className="card-head"><div className="card-title"><Ico n="money" s={14} />{ar?"الشروط المالية":"Financial Terms"}</div></div>
+            <div className="card-body">
+              <div className="fgroup">
+                <div className="frow"><label className="flabel">{ar?"الإيجار الشهري ج.م":"Monthly Rent EGP"}</label><input className="finput" type="number" placeholder="8500" /></div>
+                <div className="frow"><label className="flabel">{ar?"مبلغ التأمين":"Deposit"}</label><input className="finput" type="number" placeholder="17000" /></div>
+                <div className="frow"><label className="flabel">{ar?"تاريخ البداية":"Start Date"}</label><input className="finput" type="date" /></div>
+                <div className="frow"><label className="flabel">{ar?"المدة":"Duration"}</label><select className="field-sel"><option>12 {ar?"شهراً":"mo"}</option><option>24 {ar?"شهراً":"mo"}</option><option>36 {ar?"شهراً":"mo"}</option></select></div>
+                <div className="frow"><label className="flabel">{ar?"يوم السداد":"Pay Day"}</label><select className="field-sel"><option>{ar?"أول الشهر":"1st"}</option><option>{ar?"الخامس عشر":"15th"}</option></select></div>
+                <div className="frow"><label className="flabel">{ar?"فترة الإشعار":"Notice Period"}</label><select className="field-sel"><option>30</option><option>60</option><option>90</option></select></div>
+              </div>
             </div>
           </div>
-        </div>
+          {/* Payment Plan Selection */}
+          <div className="card anim" style={{ marginBottom:16 }}>
+            <div className="card-head"><div className="card-title"><Ico n="payments" s={14} />{t.property.paymentPlan}</div></div>
+            <div className="card-body">
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+                {['monthly','quarterly','semi','yearly'].map(plan => (
+                  <div key={plan} onClick={() => setPaymentPlan(plan)} style={{
+                    padding:'12px 14px', borderRadius:'var(--r2)', cursor:'pointer', border: paymentPlan===plan ? '2px solid var(--tl)' : '1px solid var(--b1)',
+                    background: paymentPlan===plan ? 'var(--tlbg)' : 'var(--w1)', transition:'all .15s',
+                  }}>
+                    <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:4 }}>
+                      <div style={{
+                        width:18, height:18, borderRadius:'50%', border: paymentPlan===plan ? '5px solid var(--tl)' : '2px solid var(--b2)',
+                        flexShrink:0, transition:'all .15s',
+                      }} />
+                      <span style={{ fontSize:13, fontWeight:800, color: paymentPlan===plan ? 'var(--tl)' : 'var(--t1)' }}>{t.property[plan]}</span>
+                    </div>
+                    <div style={{ fontSize:11, color:'var(--t3)', marginRight:26 }}>{t.property[plan+'D']}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </>
       )}
       <div style={{ display:"flex", gap:8, justifyContent:"space-between", marginTop: 24 }}>
-        <button className="btn-ol" onClick={() => step > 1 ? setStep(step - 1) : onBack()}>
+        <button className="btn-ol" onClick={() => step > 1 ? setStep(step - 1) : navigate(-1)}>
           <Ico n={ar?"chevR":"chevL"} s={12} />{t.reg.back}
         </button>
         {step < 3 ? (

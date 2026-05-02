@@ -125,6 +125,11 @@ export function RegisterPage({ lang, setLang, goLogin, onDone }) {
                   <div className="frow"><label className="flabel">{t.personal.phone}</label><input className="finput" placeholder="01XXXXXXXXX" /></div>
                   <div className="frow"><label className="flabel">{t.personal.email}</label><input className="finput" type="email" placeholder="user@mail.com" /></div>
                   <div className="frow fspan"><label className="flabel">{t.personal.address}</label><input className="finput" placeholder={ar?"رقم، شارع، حي":"Number, Street, District"} /></div>
+                  <div className="frow fspan">
+                    <label className="flabel">{t.personal.natAddress}</label>
+                    <input className="finput" placeholder={t.personal.natAddressHint} maxLength={12} />
+                    <div style={{ fontSize:10, color:"var(--t4)", marginTop:3 }}>{ar?"مثال: 123456789012":"e.g. 123456789012"}</div>
+                  </div>
                   <div className="frow"><label className="flabel">{t.personal.city}</label>
                     <select className="field-sel">{t.personal.cities.map(c => <option key={c}>{c}</option>)}</select>
                   </div>
@@ -154,6 +159,15 @@ export function RegisterPage({ lang, setLang, goLogin, onDone }) {
                   <div className="frow"><label className="flabel">{t.property.district}</label><input className="finput" placeholder={ar?"المعادي، الزمالك...":"Maadi, Zamalek..."} /></div>
                   <div className="frow"><label className="flabel">{t.property.deed}</label><input className="finput" placeholder="DOC-XXXXXX" /></div>
                   <div className="frow fspan"><label className="flabel">{t.property.address}</label><input className="finput" placeholder={ar?"العنوان التفصيلي":"Detailed address"} /></div>
+                  <div className="frow fspan">
+                    <label className="flabel">{t.property.ownerDocs}</label>
+                    <label className="upload-zone" style={{ cursor:'pointer' }}>
+                      <input type="file" accept=".pdf,.jpg,.jpeg,.png" multiple style={{ display:'none' }} />
+                      <Ico n="upload" s={20} />
+                      <div style={{ fontSize:12, color:"var(--t3)", marginTop:6 }}>{t.property.ownerDocsHint}</div>
+                      <div style={{ fontSize:10, color:"var(--t4)", marginTop:3 }}>PDF · JPG · PNG — max 10MB</div>
+                    </label>
+                  </div>
                   <div className="frow"><label className="flabel">{t.property.rent}</label><input className="finput" type="number" placeholder="8500" /></div>
                   <div className="frow"><label className="flabel">{t.property.status}</label>
                     <select className="field-sel"><option value="available">{t.property.avail}</option><option value="occupied">{t.property.occ}</option></select>

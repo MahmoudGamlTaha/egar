@@ -20,6 +20,7 @@ export const SIDENAV = {
       { k:"tenants", ic:"users", path:"/dashboard/users" },
     ]},
     { sec:"Account", items:[
+      { k:"wallet", ic:"money", path:"/dashboard/wallet" },
       { k:"profile", ic:"users", path:"/dashboard/profile" },
       { k:"reports", ic:"reports", path:"/dashboard/reports" },
       { k:"settings", ic:"settings", path:"/dashboard/settings" },
@@ -34,6 +35,7 @@ export const SIDENAV = {
       { k:"users", ic:"users", path:"/dashboard/users" },
     ]},
     { sec:"Account", items:[
+      { k:"wallet", ic:"money", path:"/dashboard/wallet" },
       { k:"profile", ic:"users", path:"/dashboard/profile" },
       { k:"reports", ic:"reports", path:"/dashboard/reports" },
       { k:"settings", ic:"settings", path:"/dashboard/settings" },

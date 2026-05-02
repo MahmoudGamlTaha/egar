@@ -14,6 +14,7 @@ import { UsersPage } from './pages/UsersPage';
 import { NewContractPage } from './pages/NewContractPage';
 import { PropertyHistoryPage } from './pages/PropertyHistoryPage';
 import { ProfilePage } from './pages/ProfilePage';
+import { WalletPage } from './pages/WalletPage';
 import { MetricGrid } from './MetricGrid';
 
 export function AppShell({ user, lang, setLang, onLogout }) {
@@ -139,13 +140,14 @@ export function AppShell({ user, lang, setLang, onLogout }) {
         <div className="page-content">
           <Routes>
             <Route path="home" element={<HomePage role={role} lang={lang} user={user} />} />
-            <Route path="contracts" element={<ContractsPage lang={lang} />} />
+            <Route path="contracts" element={<ContractsPage lang={lang} role={role} />} />
             <Route path="contracts/new" element={<NewContractPage user={user} lang={lang} />} />
             <Route path="payments" element={<PaymentsPage lang={lang} />} />
             <Route path="properties" element={<PropertiesPage lang={lang} user={user} />} />
             <Route path="users" element={<UsersPage lang={lang} />} />
             <Route path="properties/:propertyId/history" element={<PropertyHistoryPage lang={lang} />} />
             <Route path="profile" element={<ProfilePage user={user} lang={lang} />} />
+            <Route path="wallet" element={<WalletPage lang={lang} />} />
             {/* Add other routes here */}
           </Routes>
         </div>
@@ -154,6 +156,7 @@ export function AppShell({ user, lang, setLang, onLogout }) {
         <ContractApprovalModal
           contract={notifContract}
           lang={lang}
+          role={role}
           onClose={() => setNotifContract(null)}
           onApprove={() => {
             setContracts(prev => prev.map(c => c.id === notifContract.id ? { ...c, status: 'active' } : c));

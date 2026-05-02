@@ -5,13 +5,15 @@ import { Pill } from '../../components/Pill';
 import { CONTRACTS } from '../../data';
 import { ContractApprovalModal } from './ContractApprovalModal';
 import { ContractDetailModal } from './ContractDetailModal';
+import { ContractDocument } from './ContractDocument';
 import { useNavigate } from 'react-router-dom';
 
-export function ContractsPage({ lang }) {
+export function ContractsPage({ lang, role }) {
   const navigate = useNavigate();
   const [contracts, setContracts] = useState(CONTRACTS);
   const [selectedContract, setSelectedContract] = useState(null);
   const [detailContract, setDetailContract] = useState(null);
+  const [docContract, setDocContract] = useState(null);
   const t = T[lang]; const cur = t.cur; const ar = lang === "ar";
 
   function handleRowClick(r) {
@@ -57,7 +59,7 @@ export function ContractsPage({ lang }) {
                     <div style={{ display:"flex", gap:2 }}>
                       <button className="btn-icon" onClick={e => { e.stopPropagation(); handleRowClick(r); }}><Ico n="eye" s={12} /></button>
                       <button className="btn-icon" onClick={e => e.stopPropagation()}><Ico n="edit" s={12} /></button>
-                      <button className="btn-icon" onClick={e => e.stopPropagation()}><Ico n="download" s={12} /></button>
+                      {r.status === 'active' && <button className="btn-icon" onClick={e => { e.stopPropagation(); setDocContract(r); }} title={ar ? 'مستند العقد' : 'Contract Document'} style={{ color: 'var(--tl)' }}><Ico n="file" s={12} /></button>}
                     </div>
                   </td>
                 </tr>
@@ -67,9 +69,10 @@ export function ContractsPage({ lang }) {
         </div>
       </div>
       {selectedContract && (
-        <ContractApprovalModal 
-          contract={selectedContract} 
-          lang={lang} 
+        <ContractApprovalModal
+          contract={selectedContract}
+          lang={lang}
+          role={role}
           onClose={() => setSelectedContract(null)}
           onApprove={() => {
             setContracts(contracts.map(c => c.id === selectedContract.id ? { ...c, status: 'active' } : c));
@@ -86,6 +89,14 @@ export function ContractsPage({ lang }) {
           contract={detailContract} 
           lang={lang} 
           onClose={() => setDetailContract(null)}
+          onViewDoc={c => { setDetailContract(null); setDocContract(c); }}
+        />
+      )}
+      {docContract && (
+        <ContractDocument
+          contract={docContract}
+          lang={lang}
+          onClose={() => setDocContract(null)}
         />
       )}
     </div>

@@ -2,11 +2,13 @@ import { T } from '../../translations';
 import { Ico } from '../../components/Icon';
 import { Pill } from '../../components/Pill';
 
-export function ContractDetailModal({ contract, lang, onClose }) {
+export function ContractDetailModal({ contract, lang, onClose, onViewDoc }) {
   const t = T[lang];
   const ar = lang === "ar";
 
   if (!contract) return null;
+
+  const isActive = contract.status === 'active';
 
   const rows = [
     [ar ? "رقم العقد" : "Contract ID", contract.id],
@@ -44,6 +46,11 @@ export function ContractDetailModal({ contract, lang, onClose }) {
           </div>
         </div>
         <div className="modal-footer">
+          {isActive && onViewDoc && (
+            <button className="btn-tl" onClick={() => onViewDoc(contract)}>
+              <Ico n="file" s={12} />{ar ? "مستند العقد" : "View Document"}
+            </button>
+          )}
           <button className="btn-ol" onClick={onClose}>{ar ? "إغلاق" : "Close"}</button>
         </div>
       </div>
